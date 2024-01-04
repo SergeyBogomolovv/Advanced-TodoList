@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ITodoItem } from '../../components/TodoItem'
+import { ITodoItem, Id } from '../../types'
 
 interface todoState {
   todos: ITodoItem[]
@@ -9,10 +9,8 @@ const initialState: todoState = {
   todos: [],
 }
 
-type idPayload = number | string
-
 interface changePayload {
-  id: idPayload
+  id: Id
   text: string
 }
 
@@ -23,12 +21,15 @@ export const todoSlice = createSlice({
     addTodo: (state, action: PayloadAction<ITodoItem>) => {
       state.todos = [...state.todos, action.payload]
     },
-    deleteTodo: (state, action: PayloadAction<idPayload>) => {
+    deleteTodo: (state, action: PayloadAction<Id>) => {
       state.todos = state.todos.filter(
         (todo: ITodoItem) => todo.id !== action.payload
       )
     },
-    setTodoCompleted: (state, action: PayloadAction<idPayload>) => {
+    changeTodos: (state, acion: PayloadAction<ITodoItem[]>) => {
+      state.todos = [...acion.payload]
+    },
+    setTodoCompleted: (state, action: PayloadAction<Id>) => {
       const toggleTodo = state.todos.find((todo) => todo.id === action.payload)
       if (toggleTodo) toggleTodo.completed = !toggleTodo?.completed
     },
@@ -53,6 +54,7 @@ export const {
   setTodoCompleted,
   changeTodoText,
   changeTodoTitle,
+  changeTodos,
 } = todoSlice.actions
 
 export default todoSlice.reducer

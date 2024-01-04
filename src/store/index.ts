@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import todoSlice from './reducers/todoSlice'
 import modalSlice from './reducers/modalSlice'
-import todoTypeSlice from './reducers/todoTypeSlice'
+import todoTypeSlice from './reducers/columnsSlice'
 
 const rootReducer = combineReducers({
   todos: todoSlice,

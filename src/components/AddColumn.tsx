@@ -1,92 +1,50 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/hooks/redux'
 import { AnimatePresence, Variants, motion } from 'framer-motion'
-import { closeTodoQueryModal } from '../store/reducers/modalSlice'
-import { addType } from '../store/reducers/todoTypeSlice'
+import { closeColumnModal } from '../store/reducers/modalSlice'
+import { addColumn } from '../store/reducers/columnsSlice'
+import nextId from 'react-id-generator'
+import {
+  addColumnModalAnimation,
+  bgAnimate,
+  modalItemsAnimation,
+} from '../animations'
 
-const AddTodoQuery = () => {
+const AddColumnModal = () => {
   const [titleValue, setTitleValue] = useState<string>('')
-  const { isQueryModalActive } = useAppSelector((state) => state.modal)
+  const { isColumnModalActive } = useAppSelector((state) => state.modal)
   const dispatch = useAppDispatch()
   const readyButtonHandler = () => {
     if (titleValue === '') {
       alert('Вы ввели пустой параметр!')
       return
     }
-    dispatch(addType({ text: titleValue, sortQuery: titleValue }))
-    dispatch(closeTodoQueryModal())
+    dispatch(addColumn({ text: titleValue, id: nextId() }))
+    dispatch(closeColumnModal())
     setTitleValue('')
   }
 
-  const bgAnimate: Variants = {
-    visible: {
-      opacity: 1,
-    },
-    hidden: {
-      opacity: 0,
-    },
-    exit: {
-      opacity: 0,
-    },
-  }
-  const modalVariants: Variants = {
-    visible: {
-      rotate: 0,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 260,
-        damping: 20,
-      },
-    },
-    hidden: {
-      y: -200,
-      scale: 0,
-      rotate: 60,
-    },
-    exit: {
-      y: 200,
-      scale: 0,
-      rotate: 60,
-    },
-  }
-  const modalItemVariants: Variants = {
-    visible: (i: number) => ({
-      scale: 1,
-      x: 0,
-      y: 0,
-      opacity: 1,
-      transition: { delay: i * 0.2 },
-    }),
-    hidden: {
-      scale: 0.3,
-      x: 100,
-      y: 50,
-      opacity: 0,
-    },
-  }
   return (
     <AnimatePresence>
-      {isQueryModalActive && (
+      {isColumnModalActive && (
         <motion.div
           variants={bgAnimate}
           initial='hidden'
           animate='visible'
           exit='exit'
           className='absolute top-0 bottom-0 right-0 left-0 grid justify-items-center items-center todo'
-          onClick={() => dispatch(closeTodoQueryModal())}
+          onClick={() => dispatch(closeColumnModal())}
         >
           <motion.div
             initial='hidden'
             animate='visible'
             exit='exit'
-            variants={modalVariants}
+            variants={addColumnModalAnimation}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
             className='shadow bg-white p-8 rounded-xl flex gap-5 '
           >
             <motion.input
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={1}
@@ -100,7 +58,7 @@ const AddTodoQuery = () => {
             />
             <motion.button
               whileTap={{ scale: 0.8 }}
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={2}
@@ -116,4 +74,4 @@ const AddTodoQuery = () => {
   )
 }
 
-export default AddTodoQuery
+export default AddColumnModal

@@ -2,35 +2,17 @@ import React, { FC } from 'react'
 import { motion } from 'framer-motion'
 import CreateTodo from './CreateTodo'
 import { useAppDispatch, useAppSelector } from '../store/hooks/redux'
-import { openTodoModal, openQueryModal } from '../store/reducers/modalSlice'
-import AddTodoQuery from './AddTodoQuery'
-
-export interface IsortOptions {
-  text: string
-  completed: boolean
-}
-
-export interface ItypeOptions {
-  text: string
-  sortQuery: string
-}
+import { openTodoModal, openColumnModal } from '../store/reducers/modalSlice'
+import AddColumnModal from './AddColumn'
+import PlusIcon from './svg/PlusIcon'
 
 interface IheaderProps {
-  selectedType: string
-  setSelectedType: (a: string) => void
   searchQuery: string
   setSearchQuery: (a: string) => void
 }
 
-const Header: FC<IheaderProps> = ({
-  selectedType,
-  setSelectedType,
-  searchQuery,
-  setSearchQuery,
-}) => {
+const Header: FC<IheaderProps> = ({ searchQuery, setSearchQuery }) => {
   const dispatch = useAppDispatch()
-
-  const { typeOptions } = useAppSelector((state) => state.todoType)
 
   return (
     <>
@@ -53,30 +35,17 @@ const Header: FC<IheaderProps> = ({
           }
         />
 
-        <select
-          className='appearance-none border border-gray-200 text-gray-700 px-2 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-          id='grid-state'
-          value={selectedType}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            setSelectedType(e.target.value)
-          }
-        >
-          {typeOptions.map((option) => (
-            <option key={option.text} value={option.sortQuery}>
-              {option.text}
-            </option>
-          ))}
-        </select>
         <motion.button
           whileTap={{ scale: 0.9 }}
-          className='p-3 rounded-lg text-white hover:bg-amber-950 bg-amber-700'
-          onClick={() => dispatch(openQueryModal())}
+          onClick={() => dispatch(openColumnModal())}
+          className='  cursor-pointer rounded-lg bg-mainBgColor border-2 border-columnBgColor p-4 ring-rose-500 hover:ring-2 flex gap-2'
         >
-          Добавить параметр
+          <PlusIcon />
+          Добавить колонку
         </motion.button>
       </div>
       <CreateTodo />
-      <AddTodoQuery />
+      <AddColumnModal />
     </>
   )
 }

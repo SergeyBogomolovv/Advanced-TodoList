@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-
 interface modalState {
   isTodoModalActive: boolean
-  isQueryModalActive: boolean
+  isColumnModalActive: boolean
 }
 
 const initialState: modalState = {
   isTodoModalActive: false,
-  isQueryModalActive: false,
+  isColumnModalActive: false,
 }
 
 export const modalSlice = createSlice({
@@ -20,11 +19,11 @@ export const modalSlice = createSlice({
     closeTodoModal: (state) => {
       state.isTodoModalActive = false
     },
-    openQueryModal: (state) => {
-      state.isQueryModalActive = true
+    openColumnModal: (state) => {
+      state.isColumnModalActive = true
     },
-    closeTodoQueryModal: (state) => {
-      state.isQueryModalActive = false
+    closeColumnModal: (state) => {
+      state.isColumnModalActive = false
     },
   },
 })
@@ -32,8 +31,8 @@ export const modalSlice = createSlice({
 export const {
   openTodoModal,
   closeTodoModal,
-  openQueryModal,
-  closeTodoQueryModal,
+  openColumnModal,
+  closeColumnModal,
 } = modalSlice.actions
 
 export default modalSlice.reducer

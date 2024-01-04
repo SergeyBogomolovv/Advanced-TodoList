@@ -1,17 +1,19 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/hooks/redux'
 import { addTodo } from '../store/reducers/todoSlice'
 import { closeTodoModal } from '../store/reducers/modalSlice'
 import { AnimatePresence, Variants, motion } from 'framer-motion'
 import nextId from 'react-id-generator'
+import { bgAnimate, modalAnimation, modalItemsAnimation } from '../animations'
 
 const CreateTodo: FC = () => {
   const [titleValue, setTitleValue] = useState<string>('')
   const [textValue, setTextValue] = useState<string>('')
   const [typeValue, setTypeValue] = useState<string>('')
+
   const { isTodoModalActive } = useAppSelector((state) => state.modal)
+  const { columns } = useAppSelector((state) => state.todoType)
   const dispatch = useAppDispatch()
-  const { typeOptions } = useAppSelector((state) => state.todoType)
 
   const readyButtonHandler = () => {
     dispatch(
@@ -27,53 +29,6 @@ const CreateTodo: FC = () => {
     setTextValue('')
     setTitleValue('')
     setTypeValue('')
-  }
-  const bgAnimate: Variants = {
-    visible: {
-      opacity: 1,
-    },
-    hidden: {
-      opacity: 0,
-    },
-    exit: {
-      opacity: 0,
-    },
-  }
-
-  const modalVariants: Variants = {
-    visible: {
-      rotate: 0,
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 260,
-        damping: 20,
-      },
-    },
-    hidden: {
-      scale: 0,
-      rotate: 60,
-    },
-    exit: {
-      scale: 0,
-      rotate: 60,
-    },
-  }
-
-  const modalItemVariants: Variants = {
-    visible: (i: number) => ({
-      scale: 1,
-      x: 0,
-      y: 0,
-      opacity: 1,
-      transition: { delay: i * 0.2 },
-    }),
-    hidden: {
-      scale: 0.3,
-      x: 100,
-      y: 50,
-      opacity: 0,
-    },
   }
 
   return (
@@ -91,12 +46,12 @@ const CreateTodo: FC = () => {
             initial='hidden'
             animate='visible'
             exit='exit'
-            variants={modalVariants}
+            variants={modalAnimation}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
             className='shadow bg-white p-8 rounded-xl flex gap-5 '
           >
             <motion.input
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={1}
@@ -109,7 +64,7 @@ const CreateTodo: FC = () => {
               }
             />
             <motion.input
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={2}
@@ -122,7 +77,7 @@ const CreateTodo: FC = () => {
               }
             />
             <motion.select
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={3}
@@ -133,16 +88,14 @@ const CreateTodo: FC = () => {
                 setTypeValue(e.target.value)
               }
             >
-              {typeOptions.map((option) => (
-                <option key={option.text} value={option.sortQuery}>
-                  {option.text}
-                </option>
+              {columns.map((column) => (
+                <option key={column.text}>{column.text}</option>
               ))}
             </motion.select>
 
             <motion.button
               whileTap={{ scale: 0.8 }}
-              variants={modalItemVariants}
+              variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={4}
