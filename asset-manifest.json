@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Advanced-TodoList/static/css/main.f33fabe0.css",
+    "main.js": "/Advanced-TodoList/static/js/main.ed249501.js",
+    "index.html": "/Advanced-TodoList/index.html",
+    "main.f33fabe0.css.map": "/Advanced-TodoList/static/css/main.f33fabe0.css.map",
+    "main.ed249501.js.map": "/Advanced-TodoList/static/js/main.ed249501.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f33fabe0.css",
+    "static/js/main.ed249501.js"
+  ]
+}
