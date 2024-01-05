@@ -93,7 +93,7 @@ const Column = forwardRef(({ column, todos }: Props, ref: any) => {
             <Trash />
           </button>
         </div>
-        <div className='flex flex-grow flex-col gap-5 p-5 overflow-x-hidden overflow-y-auto'>
+        <div className='flex flex-col flex-grow gap-5 p-5 overflow-x-hidden overflow-y-auto'>
           <SortableContext items={todoIds}>
             <LayoutGroup>
               <AnimatePresence>
@@ -101,7 +101,7 @@ const Column = forwardRef(({ column, todos }: Props, ref: any) => {
                   <MTodoItem
                     key={todo.id}
                     todo={todo}
-                    layout='position'
+                    layout
                     variants={todoAnimation}
                     animate='visible'
                     exit='exit'

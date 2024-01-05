@@ -51,14 +51,14 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
         layout
         ref={setNodeRef}
         style={style}
-        className='bg-mainBgColor p-4 rounded-lg items-center flex justify-between border-rose-500 border-2 md:h-[80px] h-[68px] border-dashed opacity-55'
+        className='flex-none bg-mainBgColor p-4 rounded-lg items-center flex justify-between border-rose-500 border-2 md:h-[80px] h-[68px] border-dashed opacity-55'
       ></motion.div>
     )
   }
   if (editMode) {
     return (
       <div style={style} {...attributes} {...listeners} ref={setNodeRef}>
-        <div className='bg-mainBgColor p-4 rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px]'>
+        <div className='bg-mainBgColor flex-none p-4 rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px]'>
           <input
             className='w-full h-[90%] bg-transparent text-white focus:outline-none overflow-y-auto overflow-x-auto border-none rounded'
             value={todo.title}
@@ -83,7 +83,7 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
         onClick={toggleEditMode}
         onMouseEnter={() => setMouseIsOver(true)}
         onMouseLeave={() => setMouseIsOver(false)}
-        className='bg-mainBgColor p-4  rounded-lg transition-border  items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px] task'
+        className='bg-mainBgColor flex-none p-4  rounded-lg transition-border  items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px] task'
       >
         <p className='my-auto w-10/12 overflow-y-auto overflow-x-auto'>
           {todo.title}
