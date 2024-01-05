@@ -39,7 +39,6 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
       todo,
     },
     disabled: editMode,
-    transition: null,
   })
   const style = {
     transition,

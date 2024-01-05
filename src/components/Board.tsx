@@ -18,7 +18,7 @@ import {
 } from '../store/reducers/todoSlice'
 import { changeColumns } from '../store/reducers/columnsSlice'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { AnimatePresence, LayoutGroup } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, LayoutGroupContext } from 'framer-motion'
 import MColumn from './Column'
 import { columnAnimation } from '../animations'
 import { createPortal } from 'react-dom'
@@ -70,7 +70,9 @@ const Board = ({ columns }: Props) => {
               column={activeColumn}
             />
           )}
-          {activeTodo && <MTodoItem todo={activeTodo} />}
+          {activeTodo && (
+            <MTodoItem whileDrag={{ scale: 1.1 }} todo={activeTodo} />
+          )}
         </DragOverlay>,
         document.body
       )}

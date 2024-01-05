@@ -1,6 +1,12 @@
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'
 import Trash from './svg/TrashIcon'
-import { AnimatePresence, LayoutGroup, Reorder, motion } from 'framer-motion'
+import {
+  AnimatePresence,
+  LayoutGroup,
+  Reorder,
+  animate,
+  motion,
+} from 'framer-motion'
 import { ITodoItem, Id, IColumn } from '../types'
 import { useAppDispatch, useAppSelector } from '../store/hooks/redux'
 import { changeColumns, deleteColumn } from '../store/reducers/columnsSlice'
@@ -95,21 +101,18 @@ const Column = forwardRef(({ column, todos }: Props, ref: any) => {
         </div>
         <div className='flex flex-col flex-grow gap-5 p-5 overflow-x-hidden overflow-y-auto'>
           <SortableContext items={todoIds}>
-            <LayoutGroup>
-              <AnimatePresence>
-                {todos.map((todo) => (
-                  <MTodoItem
-                    key={todo.id}
-                    todo={todo}
-                    layout
-                    variants={todoAnimation}
-                    animate='visible'
-                    exit='exit'
-                    initial='hidden'
-                  />
-                ))}
-              </AnimatePresence>
-            </LayoutGroup>
+            <AnimatePresence>
+              {todos.map((todo) => (
+                <MTodoItem
+                  key={todo.id}
+                  todo={todo}
+                  variants={todoAnimation}
+                  animate='visible'
+                  exit='exit'
+                  initial='hidden'
+                />
+              ))}
+            </AnimatePresence>
           </SortableContext>
         </div>
         <button
