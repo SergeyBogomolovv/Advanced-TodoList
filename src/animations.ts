@@ -38,7 +38,6 @@ export const deleteButtonAnimation: Variants = {
 export const todoAnimation: Variants = {
   visible: {
     x: 0,
-    y: 0,
     scale: 1,
     opacity: 1,
   },
@@ -48,7 +47,7 @@ export const todoAnimation: Variants = {
     opacity: 0,
   },
   exit: {
-    y: 100,
+    x: 100,
     scale: 0.5,
     opacity: 0,
   },

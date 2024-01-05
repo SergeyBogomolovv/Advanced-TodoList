@@ -5,7 +5,7 @@ function Trash() {
       fill='none'
       viewBox='0 0 24 24'
       strokeWidth='1.5'
-      className='w-6 h-6'
+      className='sm:w-6 md:h-6 w-5 h-5'
     >
       <path
         strokeLinecap='round'

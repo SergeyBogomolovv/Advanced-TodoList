@@ -9,6 +9,7 @@ import {
   bgAnimate,
   modalItemsAnimation,
 } from '../animations'
+import PlusIcon from './svg/PlusIcon'
 
 const AddColumnModal = () => {
   const [titleValue, setTitleValue] = useState<string>('')
@@ -32,7 +33,7 @@ const AddColumnModal = () => {
           initial='hidden'
           animate='visible'
           exit='exit'
-          className='absolute top-0 bottom-0 right-0 left-0 grid justify-items-center items-center todo'
+          className='fixed top-0 bottom-0 right-0 left-0 grid justify-items-center items-center todo'
           onClick={() => dispatch(closeColumnModal())}
         >
           <motion.div
@@ -41,17 +42,18 @@ const AddColumnModal = () => {
             exit='exit'
             variants={addColumnModalAnimation}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            className='shadow bg-white p-8 rounded-xl flex gap-5 '
+            className='shadow bg-mainBgColor p-8 rounded-xl flex gap-5 mb-[30%] ring-columnBgColor ring-4'
           >
             <motion.input
               variants={modalItemsAnimation}
               animate='visible'
               initial='hidden'
               custom={1}
-              className='shadow appearance-none border rounded px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline '
+              className='rounded-lg px-4 leading-tight ring-rose-500 ring-2 border-transparent outline-none bg-mainBgColor'
               type='text'
-              placeholder='Название параметра'
+              placeholder='Название'
               value={titleValue}
+              autoFocus
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTitleValue(e.target.value)
               }
@@ -62,10 +64,10 @@ const AddColumnModal = () => {
               animate='visible'
               initial='hidden'
               custom={2}
-              className='p-3 rounded-lg bg-emerald-700 text-white hover:bg-emerald-950 shadow'
+              className='p-3 rounded-lg bg-columnBgColor stroke-gray-800  shadow'
               onClick={readyButtonHandler}
             >
-              Готово
+              <PlusIcon />
             </motion.button>
           </motion.div>
         </motion.div>

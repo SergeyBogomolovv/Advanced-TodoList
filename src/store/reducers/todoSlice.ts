@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ITodoItem, Id } from '../../types'
+import { arrayMove } from '@dnd-kit/sortable'
 
 interface todoState {
   todos: ITodoItem[]
@@ -9,9 +10,13 @@ const initialState: todoState = {
   todos: [],
 }
 
-interface changePayload {
-  id: Id
-  text: string
+interface changeTodoInColumnPayload {
+  activeIndex: number
+  overIndex: number
+}
+interface changeColumnPayload {
+  activeIndex: number
+  columnId: Id
 }
 
 export const todoSlice = createSlice({
@@ -26,24 +31,30 @@ export const todoSlice = createSlice({
         (todo: ITodoItem) => todo.id !== action.payload
       )
     },
-    changeTodos: (state, acion: PayloadAction<ITodoItem[]>) => {
-      state.todos = [...acion.payload]
+    changeTodos: (state, action: PayloadAction<ITodoItem[]>) => {
+      state.todos = [...action.payload]
     },
     setTodoCompleted: (state, action: PayloadAction<Id>) => {
       const toggleTodo = state.todos.find((todo) => todo.id === action.payload)
       if (toggleTodo) toggleTodo.completed = !toggleTodo?.completed
     },
-    changeTodoText: (state, action: PayloadAction<changePayload>) => {
-      const toggleTodo = state.todos.find(
-        (todo) => todo.id === action.payload.id
+    changeTodoInColumn: (
+      state,
+      action: PayloadAction<changeTodoInColumnPayload>
+    ) => {
+      state.todos[action.payload.activeIndex].inColumnId =
+        state.todos[action.payload.overIndex].inColumnId
+      changeTodos(
+        arrayMove(
+          state.todos,
+          action.payload.activeIndex,
+          action.payload.overIndex
+        )
       )
-      if (toggleTodo) toggleTodo.text = action.payload.text
     },
-    changeTodoTitle: (state, action: PayloadAction<changePayload>) => {
-      const toggleTodo = state.todos.find(
-        (todo) => todo.id === action.payload.id
-      )
-      if (toggleTodo) toggleTodo.title = action.payload.text
+    changeColumn: (state, action: PayloadAction<changeColumnPayload>) => {
+      state.todos[action.payload.activeIndex].inColumnId =
+        action.payload.columnId
     },
   },
 })
@@ -52,9 +63,9 @@ export const {
   addTodo,
   deleteTodo,
   setTodoCompleted,
-  changeTodoText,
-  changeTodoTitle,
   changeTodos,
+  changeTodoInColumn,
+  changeColumn,
 } = todoSlice.actions
 
 export default todoSlice.reducer

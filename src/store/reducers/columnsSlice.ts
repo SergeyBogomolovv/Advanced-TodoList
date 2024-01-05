@@ -7,7 +7,7 @@ interface columnState {
 }
 
 const initialState: columnState = {
-  columns: [{ text: 'Не выбрано', id: nextId() }],
+  columns: [{ text: 'Надо сделать', id: nextId() }],
 }
 
 export const columnSlice = createSlice({

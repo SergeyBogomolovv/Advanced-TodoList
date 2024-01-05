@@ -5,7 +5,11 @@ module.exports = {
     extend: {
       colors: {
         mainBgColor: '#0D1117',
-        columnBgColor: '#161C22',
+        columnBgColor: '#191c23',
+      },
+      screens: {
+        ssm: '490px',
+        sssm: '340px',
       },
     },
   },

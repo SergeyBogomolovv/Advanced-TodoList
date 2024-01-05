@@ -19,7 +19,8 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
   const dispatch = useAppDispatch()
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
   const [editMode, setEditMode] = useState<boolean>(false)
-
+  const isMobile = window.screen.width <= 640
+  const isTrash = mouseIsOver || isMobile
   const toggleEditMode = () => {
     setEditMode(!editMode)
     setMouseIsOver(false)
@@ -38,6 +39,7 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
       todo,
     },
     disabled: editMode,
+    transition: null,
   })
   const style = {
     transition,
@@ -45,26 +47,27 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
   }
   if (isDragging) {
     return (
-      <div
+      <motion.div
+        layout
         ref={setNodeRef}
         style={style}
-        className='bg-mainBgColor p-4  rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab border-rose-500 border-2  opacity-50 h-[60px]'
-      ></div>
+        className='bg-mainBgColor p-4 rounded-lg items-center flex justify-between border-rose-500 border-2 md:h-[80px] h-[68px] border-dashed opacity-55'
+      ></motion.div>
     )
   }
   if (editMode) {
     return (
       <div style={style} {...attributes} {...listeners} ref={setNodeRef}>
-        <div className='bg-mainBgColor p-4  rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor h-[60px]'>
-          <textarea
-            className='w-full h-[90%] border-none rounded bg-transparent text-white focus:outline-none resize-none'
+        <div className='bg-mainBgColor p-4 rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px]'>
+          <input
+            className='w-full h-[90%] bg-transparent text-white focus:outline-none overflow-y-auto overflow-x-auto border-none rounded'
             value={todo.title}
             autoFocus
             onBlur={toggleEditMode}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               updateTodos(todo.id, e.target.value)
             }}
-          ></textarea>
+          />
         </div>
       </div>
     )
@@ -80,19 +83,19 @@ const TodoItem: FC<ITodoItemProps> = forwardRef(({ todo }, ref: any) => {
         onClick={toggleEditMode}
         onMouseEnter={() => setMouseIsOver(true)}
         onMouseLeave={() => setMouseIsOver(false)}
-        className='bg-mainBgColor p-4  rounded-lg transition-all duration-300 items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor h-[60px]'
+        className='bg-mainBgColor p-4  rounded-lg transition-border  items-center flex justify-between cursor-grab hover:border-rose-500 border-2 border-mainBgColor md:min-h-[80px] min-h-[68px] task'
       >
-        <p className='my-auto w-10/12 overflow-y-auto overflow-x-hidden whitespace-pre-wrap'>
+        <p className='my-auto w-10/12 overflow-y-auto overflow-x-auto'>
           {todo.title}
         </p>
         <AnimatePresence>
-          {mouseIsOver && (
+          {isTrash && (
             <motion.button
               variants={deleteButtonAnimation}
               animate='visible'
               initial='hidden'
               exit='exit'
-              className='stroke-white opacity-60 hover:opacity-100'
+              className='stroke-white opacity-60 hover:opacity-100 p-2 hover:bg-columnBgColor rounded-xl'
               onClick={(e: React.MouseEvent) => {
                 dispatch(deleteTodo(todo.id))
                 e.stopPropagation()

@@ -1,8 +1,7 @@
 export interface ITodoItem {
   title: string
   completed: boolean
-  text: string
-  type?: string
+  inColumnId: Id
   id: string | number
 }
 
